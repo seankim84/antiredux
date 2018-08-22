@@ -9,7 +9,7 @@ const AppPresenter = () => (
         <Header />
         <Flex alginCenter full column>
             <Store.Consumer>
-                {store => {
+                {store => { // object.keys를 사용하여 Array 를 생성한다.
                     return Object.keys(store.notifications).map(key => (
                         <Notification
                             id={store.notifications[key].id} 

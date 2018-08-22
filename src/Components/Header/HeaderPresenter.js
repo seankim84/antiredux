@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import Flex, { FlexItem } from 'styled-flex-component';
 import FontAwesome from 'react-fontawesome';
+import Store from 'store'; 
 
 const Header = styled.header`
     height: 100px;
@@ -43,6 +44,16 @@ const Number = styled.span`
     top: -10px;
     `;
 
+const getUnseen = (notifications) => {
+  let unseen = [];
+  Object.keys(notifications).map(key => { //notifications 전체를 map으로 돌아본다.(Object key로)
+    if(!notifications[key].seen){
+      return unseen.push(notifications[key]);
+    }
+  });
+  return unseen.length; // 위에서 추가한 배열의 길이를 반환.
+} 
+
 const HeaderPresenter = () => (
   <Header>
     <Flex full justifyBetween alignCenter>
@@ -59,7 +70,11 @@ const HeaderPresenter = () => (
           </HeaderIcon>
           <HeaderIcon>
             <FontAwesome name="bell" />
-            <Number>10</Number>
+            <Number>
+              <Store.Consumer>
+                {store => getUnseen(store.notifications)}
+              </Store.Consumer>
+            </Number>
           </HeaderIcon>
         </Flex>
       </FlexItem>
